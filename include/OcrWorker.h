@@ -5,15 +5,18 @@
 #pragma once
 #include <QObject>
 #include <OcrLiteCApi.h>
+#include <QPixmap>
 
 class OcrWorker final : public QObject {
     Q_OBJECT
 
 public:
-    explicit OcrWorker(OCR_HANDLE *ocrHandle, QObject *parent = nullptr);
+    explicit OcrWorker();
+
+    ~OcrWorker() override;
 
 public slots:
-    void doOcrRecognize();
+    void doOcrRecognize(const QPixmap &pixmap);
 
 private:
     OCR_HANDLE *ocrHandle;

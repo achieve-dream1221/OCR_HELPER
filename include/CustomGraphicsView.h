@@ -31,6 +31,7 @@ private:
     QRubberBand *rubberBand = nullptr;
     QPoint origin;
 signals:
-    void startOcr();
+    void startOcr(QPixmap &pixmap);
+
     void canClicked();
 };

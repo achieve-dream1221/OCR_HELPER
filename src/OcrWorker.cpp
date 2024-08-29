@@ -5,10 +5,19 @@
 #include "OcrWorker.h"
 #include "constants.h"
 #include <QDebug>
+#include <QThread>
 
-OcrWorker::OcrWorker(OCR_HANDLE *ocrHandle, QObject *parent): QObject(parent), ocrHandle(ocrHandle) {
+OcrWorker::OcrWorker(): QObject(nullptr) {
+    ocrHandle = static_cast<OCR_HANDLE *>(OcrInit(DET_MODEL, CLS_MODEL, REC_MODEL, KEY_FILE, THREAD_NUM));
 }
-void OcrWorker::doOcrRecognize() {
+
+OcrWorker::~OcrWorker() {
+    OcrDestroy(ocrHandle);
+}
+
+void OcrWorker::doOcrRecognize(const QPixmap &pixmap) {
+    qDebug() << pixmap.size();
+    qDebug() << "Save Result:" << pixmap.save(QString("%1%2").arg(SAVE_PATH, SAVE_IMG));
     qDebug() << "Start OCR";
     OCR_PARAM param{};
     if (!OcrDetect(ocrHandle, SAVE_PATH, SAVE_IMG, &param)) {

@@ -54,8 +54,8 @@ void CustomGraphicsView::mouseReleaseEvent(QMouseEvent *event) {
                 const QRectF itemRect = pixmapItem->mapFromScene(selectionRect).boundingRect();
                 // 截取选中的区域
                 const QImage selectedImage = originalPixmap.toImage().copy(itemRect.toRect());
-                qDebug() << selectedImage.save("result.png");
-                emit startOcr();
+                auto pixmap = QPixmap::fromImage(selectedImage);
+                emit startOcr(pixmap);
             }
         }
     }

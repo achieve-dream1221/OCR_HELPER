@@ -3,11 +3,10 @@
 // @File: mainwindow.h
 // @Software: CLion
 #pragma once
-#include <OcrWorker.h>
 #include <QMainWindow>
 #include "CustomGraphicsView.h"
-#include <QElapsedTimer>
-
+#include "OcrWorker.h"
+#include <QThread>
 QT_BEGIN_NAMESPACE
 
 namespace Ui {
@@ -24,14 +23,19 @@ public:
 
     ~MainWindow() override;
 
+    void initThread();
+
 private slots:
     void on_btnOcr_clicked();
+
     void enable_btn() const;
-    void do_ocrRecognize();
+
+    void do_ocrRecognize(const QPixmap &pixmap);
 
 private:
     Ui::MainWindow *ui;
     CustomGraphicsView *customGraphicsView;
     QElapsedTimer elapsedTimer;
-    OCR_HANDLE *ocrHandle;
+    QThread *ocrThread{};
+    OcrWorker *ocrWorker{};
 };
