@@ -1,0 +1,1 @@
+option('ocr_lib', type : 'combo', choices : ['RapidOcrOnnx', 'OcrLiteOnnx'], value : 'OcrLiteOnnx', description : 'default ocr_lib is OcrLiteOnnx')

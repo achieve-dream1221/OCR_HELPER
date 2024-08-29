@@ -1,4 +1,4 @@
-project('qt_meson_project_template', 'cpp',
+project('OCR_HELPER', 'cpp',
         version : '1.0.0',
         default_options : ['warning_level=3', 'cpp_std=c++20'],
 )
@@ -15,11 +15,22 @@ qt6_dep = dependency('qt6', modules : ['Core', 'Widgets', 'Gui'], main : true)
 inc = [include_directories('include')]
 deps = [qt6_dep]
 
-RapidOcrOnnx_proj = subproject('RapidOcrOnnx')
-RapidOcrOnnx_dep = RapidOcrOnnx_proj.get_variable('RapidOcrOnnx_dep')
-RapidOcrOnnx_includes = RapidOcrOnnx_proj.get_variable('RapidOcrOnnx_includes')
-deps += RapidOcrOnnx_dep
-inc += RapidOcrOnnx_includes
+ocr_lib = get_option('ocr_lib') # 来自于meson.options文件的ocr_lib变量
+if ocr_lib == 'RapidOcrOnnx'
+    # RapidOcrOnnx
+    RapidOcrOnnx_proj = subproject('RapidOcrOnnx')
+    RapidOcrOnnx_dep = RapidOcrOnnx_proj.get_variable('RapidOcrOnnx_dep')
+    RapidOcrOnnx_includes = RapidOcrOnnx_proj.get_variable('RapidOcrOnnx_includes')
+    deps += RapidOcrOnnx_dep
+    inc += RapidOcrOnnx_includes
+elif ocr_lib == 'OcrLiteOnnx'
+    # OcrLiteOnnx
+    OcrLiteOnnx_proj = subproject('OcrLiteOnnx')
+    OcrLiteOnnx_dep = OcrLiteOnnx_proj.get_variable('OcrLiteOnnx_dep')
+    OcrLiteOnnx_includes = OcrLiteOnnx_proj.get_variable('OcrLiteOnnx_includes')
+    deps += OcrLiteOnnx_dep
+    inc += OcrLiteOnnx_includes
+endif
 
 #
 src = files(
@@ -83,10 +94,8 @@ else
     endif
 endif
 
-#install_data(['resources/mnist.onnx'], install_dir : meson.build_root())
-
-executable('main', src,
+executable('OCR_HELPER', src,
            include_directories : inc,
            dependencies : deps,
-           #  win_subsystem : 'windows'
+           #  win_subsystem : 'windows' # 隐藏控制台窗口信息
 )
