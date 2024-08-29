@@ -59,12 +59,10 @@ void MainWindow::initThread() {
         ui->ocrEditor->setPlainText(result);
         qDebug() << "耗时: " << elapsedTimer.elapsed() << " ms";
         ui->statusBar->showMessage(QString("耗时: %1 ms").arg(elapsedTimer.elapsed()));
-        // ocrThread->quit();
     });
 
     connect(ocrWorker, &OcrWorker::ocrFailed, this, [=](const QString &errorMessage) {
         ui->statusBar->showMessage(errorMessage);
-        // ocrThread->quit();
     });
 
     // 清理线程和工作对象

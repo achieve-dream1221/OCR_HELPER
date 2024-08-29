@@ -25,6 +25,10 @@ protected:
 
     void dropEvent(QDropEvent *event) override;
 
+    /**
+     *  针对Qt拖拽事件无法检测问题: https://blog.csdn.net/guorong520/article/details/103766861
+     * @param event
+     */
     void dragMoveEvent(QDragMoveEvent *event) override;
 
 private:
