@@ -94,8 +94,19 @@ else
     endif
 endif
 
-executable('OCR_HELPER', src,
-           include_directories : inc,
-           dependencies : deps,
-           #  win_subsystem : 'windows' # 隐藏控制台窗口信息
-)
+build_type = get_option('buildtype')
+if build_type == 'debug'
+    executable('OCR_HELPER', src,
+               include_directories : inc,
+               dependencies : deps,
+               #  win_subsystem : 'windows' # 隐藏控制台窗口信息
+    )
+elif build_type == 'release'
+    executable('OCR_HELPER', src,
+               include_directories : inc,
+               dependencies : deps,
+               win_subsystem : 'windows' # 隐藏控制台窗口信息
+    )
+endif
+
+
